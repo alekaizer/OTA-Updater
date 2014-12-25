@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OTA Updater</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="version_label">Current version: </string>
+    <string name="version_label_2">Latest version: </string>
+    <string name="fetch">Fetch</string>
+    <string name="update_text">Update Now</string>
+    <string name="updated">Your system is up to date</string>
+    <string name="need_update">Your system need to be updated</string>
+    <string name="fecthing">Searching for update</string>
+    <string name="updating">Updating completed</string>
+    <string name="reboot">Rebooting</string>
+    <string name="checked">checked</string>
+    <string name="title_activity_splash">Splash</string>
+    <string name="dummy_text">Projet LO52-A14/UTBM</string>
+    <string name="dummy_content">OTA Updater</string>
+    <string name="author">Achille AROUKO</string>
+
+</resources>

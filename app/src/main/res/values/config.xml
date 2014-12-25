@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="additional_system_update" translatable="false">
+        com.utbm.lo52.otaupdater
+    </string>
+    <string name="additional_system_update_menu" translatable="famse">
+        com.utbm.lo52.otaupdater.MainActivity
+    </string>
+</resources>
