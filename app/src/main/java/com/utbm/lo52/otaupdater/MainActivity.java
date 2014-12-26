@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -74,8 +73,8 @@ public class MainActivity extends ActionBarActivity {
                                 // this timer object to simulate an update process during 3.5 seconds
                                 final Timer rebootTimer = new Timer();
                                 final ProgressDialog rebootDialog = new ProgressDialog(MainActivity.this);
-                                rebootDialog.setMessage("Your device will reboot after update");
-                                rebootDialog.setTitle("Updating");
+                                rebootDialog.setMessage(getResources().getString(R.string.reboot));
+                                rebootDialog.setTitle(R.string.updating);
                                 rebootDialog.show();
                                 rebootTimer.schedule(new TimerTask() {
                                     @Override
@@ -109,13 +108,13 @@ public class MainActivity extends ActionBarActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        system_state.setText("Connection Failed");
+                        system_state.setText(R.string.error);
                         thumb.setImageResource(R.drawable.connection_error);
                     }
                 });
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Searching for update");
+        progressDialog.setMessage(getResources().getString(R.string.fetching));
         progressDialog.setCancelable(false);
         progressDialog.show();
         final Timer delay = new Timer();
@@ -147,18 +146,4 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
