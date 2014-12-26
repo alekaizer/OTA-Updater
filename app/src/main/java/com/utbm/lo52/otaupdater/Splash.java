@@ -11,7 +11,7 @@ import java.util.TimerTask;
 
 /**
  * @author Achille AROUKO
- * Splash scren for the OTA Updater app
+ *         Splash scren for the OTA Updater app
  */
 public class Splash extends Activity {
 
@@ -23,11 +23,11 @@ public class Splash extends Activity {
         splashTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Intent intent = new Intent(Splash.this,MainActivity.class);
+                Intent intent = new Intent(Splash.this, MainActivity.class);
                 startActivity(intent);
                 splashTimer.cancel();
             }
-        },4500);
+        }, 4500);
     }
 
 

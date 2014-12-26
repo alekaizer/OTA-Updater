@@ -27,12 +27,12 @@ import java.util.TimerTask;
 
 /**
  * @author Achille AROUKO Lekaizer
- * OTAUpdater made for LO52 class at UTBM
- * Teacher: Fabien Brisset
+ *         OTAUpdater made for LO52 class at UTBM
+ *         Teacher: Fabien Brisset
  */
 
 public class MainActivity extends ActionBarActivity {
-       private String ACTUAL_VERSION;
+    private String ACTUAL_VERSION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +49,14 @@ public class MainActivity extends ActionBarActivity {
         // RequestQueue object allowing us to do http request without cheating on the AndroidManifest or creating a new thread to handle http connection
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-            String url = "http://www.ota.besaba.com/update/";
+        String url = "http://www.ota.besaba.com/update/";
 
         // the request to be executed
-        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,url,null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (Integer.parseInt(ACTUAL_VERSION.substring(ACTUAL_VERSION.lastIndexOf(".")+1)) < Integer.parseInt(String.valueOf(response.get("version")))){
+                    if (Integer.parseInt(ACTUAL_VERSION.substring(ACTUAL_VERSION.lastIndexOf(".") + 1)) < Integer.parseInt(String.valueOf(response.get("version")))) {
                         // The system is out of date, update needed.
 
                         system_state.setText(R.string.need_update);
@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
                             @Override
                             public void onClick(View v) {
                                 PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-                                final PowerManager.WakeLock wakelock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"myWakelock");
+                                final PowerManager.WakeLock wakelock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "myWakelock");
                                 // The wakelock object created above and used below, acquire a wakelock in order to keep the CPU on during the update process
                                 wakelock.acquire();
                                 // this timer object to simulate an update process during 3.5 seconds
@@ -80,17 +80,17 @@ public class MainActivity extends ActionBarActivity {
                                 rebootTimer.schedule(new TimerTask() {
                                     @Override
                                     public void run() {
-                                      // the wakelock acquired above is released in order to keep the CPU on and to alterate the battery, after that
-                                      // progressDialog is closed and we call a rebooting instruction
-                                      wakelock.release();
-                                      rebootDialog.dismiss();
-                                      rebootTimer.cancel();
+                                        // the wakelock acquired above is released in order to keep the CPU on and to alterate the battery, after that
+                                        // progressDialog is closed and we call a rebooting instruction
+                                        wakelock.release();
+                                        rebootDialog.dismiss();
+                                        rebootTimer.cancel();
                                     }
-                                },4500);
-                               // As the app isn't allowed to reboot the device as it isn't signed and I didn't put the LOCAL_CERTIFICATE := platform
-                               // on Android.mk I commented the line below, this line is supposed to reboot the device
+                                }, 4500);
+                                // As the app isn't allowed to reboot the device as it isn't signed and I didn't put the LOCAL_CERTIFICATE := platform
+                                // on Android.mk I commented the line below, this line is supposed to reboot the device
 
-                               //powerManager.reboot(null);
+                                //powerManager.reboot(null);
                             }
                         });
                     } else {
@@ -105,14 +105,14 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         },
-        // Error Handler
-        new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                system_state.setText("Connection Failed");
-                thumb.setImageResource(R.drawable.connection_error);
-            }
-        });
+                // Error Handler
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        system_state.setText("Connection Failed");
+                        thumb.setImageResource(R.drawable.connection_error);
+                    }
+                });
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Searching for update");
@@ -125,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
                 progressDialog.dismiss();
                 delay.cancel();
             }
-        },2000);
+        }, 2000);
         requestQueue.add(request);
 
         // Button default's behavior
@@ -136,7 +136,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        
+
     }
 
 
