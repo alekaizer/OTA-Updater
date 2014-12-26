@@ -46,10 +46,13 @@ public class MainActivity extends ActionBarActivity {
         ACTUAL_VERSION = Build.VERSION.INCREMENTAL;
         version.setText(ACTUAL_VERSION);
 
-
+        // RequestQueue object allowing us to do http request without cheating on the AndroidManifest or creating a new thread to handle http connection
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,"http://www.ota.besaba.com/",null, new Response.Listener<JSONObject>() {
+            String url = new String("http://www.ota.besaba.com/update/");
+
+        // the request to be executed
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,url,null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -107,6 +110,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 system_state.setText("Connection Failed");
+                thumb.setImageResource(R.drawable.connection_error);
             }
         });
 
