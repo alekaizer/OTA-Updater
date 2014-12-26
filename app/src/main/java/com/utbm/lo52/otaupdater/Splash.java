@@ -9,7 +9,10 @@ import android.view.MenuItem;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * @author Achille AROUKO
+ * Splash scren for the OTA Updater app
+ */
 public class Splash extends Activity {
 
     @Override
