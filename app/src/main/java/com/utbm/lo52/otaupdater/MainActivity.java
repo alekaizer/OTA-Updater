@@ -27,7 +27,7 @@ import java.util.TimerTask;
 
 /**
  * @author Achille AROUKO Lekaizer
- * OTAUpdater did for LO52 class at UTBM
+ * OTAUpdater made for LO52 class at UTBM
  * Teacher: Fabien Brisset
  */
 
@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
         // RequestQueue object allowing us to do http request without cheating on the AndroidManifest or creating a new thread to handle http connection
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-            String url = new String("http://www.ota.besaba.com/update/");
+            String url = "http://www.ota.besaba.com/update/";
 
         // the request to be executed
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,url,null, new Response.Listener<JSONObject>() {
