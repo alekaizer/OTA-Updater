@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
         final TextView version_label = (TextView) findViewById(R.id.version_label);
         final Button updateButton = (Button) findViewById(R.id.update_button);
         final ImageView thumb = (ImageView) findViewById(R.id.thumb);
-        ACTUAL_VERSION = Build.VERSION.INCREMENTAL;
+        ACTUAL_VERSION = Build.VERSION.RELEASE;
         version.setText(ACTUAL_VERSION);
 
         // RequestQueue object allowing us to do http request without cheating on the AndroidManifest or creating a new thread to handle http connection
@@ -55,7 +55,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (Integer.parseInt(ACTUAL_VERSION.substring(ACTUAL_VERSION.lastIndexOf(".") + 1)) < Integer.parseInt(String.valueOf(response.get("version")))) {
+                    // We make sure that the two systems are from have the same version in case the newest is a subversion and to avoid case like
+                    // 4.3 < 4.0.4 when comparing integer.
+                    if (versionComparator(ACTUAL_VERSION,String.valueOf(response.get("version")))) {
                         // The system is out of date, update needed.
 
                         system_state.setText(R.string.need_update);
@@ -124,7 +126,7 @@ public class MainActivity extends ActionBarActivity {
                 progressDialog.dismiss();
                 delay.cancel();
             }
-        }, 2000);
+        }, 5000);
         requestQueue.add(request);
 
         // Button default's behavior
@@ -138,6 +140,16 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    public boolean versionComparator(String oldVersion, String newVersion){
+       int oldVer = Integer.parseInt(oldVersion.replaceAll(".",""));
+       int newVer = Integer.parseInt(newVersion.replaceAll(".", ""));
+
+        // set the integer to the same number of digits to avoid case like 43 < 404 (for version oldversion = 4.3 and newVersion = 4.0.4
+        int coef = (int) Math.pow(10,(newVersion.length()-oldVersion.length()));
+
+        // return which one of the versions is the latest
+        return (oldVer * coef) < newVer;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
