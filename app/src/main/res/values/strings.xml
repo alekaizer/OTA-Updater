@@ -4,8 +4,8 @@
     <string name="app_name">OTA Updater</string>
     <string name="error">"Connection Failed"</string>
     <string name="action_settings">Settings</string>
-    <string name="version_label">Current version: </string>
-    <string name="version_label_2">Latest version: </string>
+    <string name="version_label">Current version:\t </string>
+    <string name="version_label_2">Latest version:\t </string>
     <string name="fetch">Fetch</string>
     <string name="update_text">Update Now</string>
     <string name="updated">Your system is up to date</string>

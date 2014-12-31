@@ -1,6 +1,8 @@
 package com.utbm.lo52.otaupdater;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -57,7 +59,8 @@ public class MainActivity extends ActionBarActivity {
                 try {
                     // We make sure that the two systems are from have the same version in case the newest is a subversion and to avoid case like
                     // 4.3 < 4.0.4 when comparing integer.
-                    if (versionComparator(ACTUAL_VERSION,String.valueOf(response.get("version")))) {
+                    String NEW_VERSION =String.valueOf(response.get("version"));
+                    if (versionComparator(ACTUAL_VERSION,NEW_VERSION)) {
                         // The system is out of date, update needed.
 
                         system_state.setText(R.string.need_update);
@@ -100,6 +103,22 @@ public class MainActivity extends ActionBarActivity {
                         version_label.setText(R.string.version_label);
                         thumb.setImageResource(R.drawable.checked);
                         updateButton.setText(R.string.fetch);
+
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                        alertDialog.setMessage("Your system is already the latest available");
+                        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        try {
+                            Thread.sleep(1010);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        alertDialog.show();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -126,7 +145,7 @@ public class MainActivity extends ActionBarActivity {
                 progressDialog.dismiss();
                 delay.cancel();
             }
-        }, 5000);
+        }, 3500);
         requestQueue.add(request);
 
         // Button default's behavior
@@ -141,11 +160,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public boolean versionComparator(String oldVersion, String newVersion){
-       int oldVer = Integer.parseInt(oldVersion.replaceAll(".",""));
-       int newVer = Integer.parseInt(newVersion.replaceAll(".", ""));
+       int oldVer = Integer.parseInt(oldVersion.replaceAll("[.]",""));
+       int newVer = Integer.parseInt(newVersion.replaceAll("[.]",""));
 
         // set the integer to the same number of digits to avoid case like 43 < 404 (for version oldversion = 4.3 and newVersion = 4.0.4
-        int coef = (int) Math.pow(10,(newVersion.length()-oldVersion.length()));
+        // this allow us to have this instead 430 > 404 or 440 < 441 (for 4.4 is out of date compared to 4.4.1)
+        int coef = (int) Math.pow(10,(newVersion.replaceAll("[.]","").length()-oldVersion.replaceAll("[.]","").length()));
 
         // return which one of the versions is the latest
         return (oldVer * coef) < newVer;
