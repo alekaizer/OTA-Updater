@@ -34,26 +34,47 @@ import java.util.TimerTask;
 
 public class MainActivity extends ActionBarActivity {
     private String ACTUAL_VERSION;
+    private TextView system_state;
+    private TextView version;
+    private TextView version_label;
+    private Button updateButton;
+    private ImageView thumb;
+    private RequestQueue requestQueue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TextView system_state = (TextView) findViewById(R.id.system_state);
-        final TextView version = (TextView) findViewById(R.id.version);
-        final TextView version_label = (TextView) findViewById(R.id.version_label);
-        final Button updateButton = (Button) findViewById(R.id.update_button);
-        final ImageView thumb = (ImageView) findViewById(R.id.thumb);
+        system_state = (TextView) findViewById(R.id.system_state);
+        version = (TextView) findViewById(R.id.version);
+        version_label = (TextView) findViewById(R.id.version_label);
+        updateButton = (Button) findViewById(R.id.update_button);
+        thumb = (ImageView) findViewById(R.id.thumb);
         ACTUAL_VERSION = Build.VERSION.RELEASE;
         version.setText(ACTUAL_VERSION);
 
         // RequestQueue object allowing us to do http request without cheating on the AndroidManifest or creating a new thread to handle http connection
-        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://www.ota.besaba.com/update/";
+        final String url = "http://www.ota.besaba.com/update/";
 
-        // the request to be executed
-        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        //check for update on launching
+        checkUpdate(url);
+
+        // Button default's behavior
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkUpdate(url);
+            }
+        });
+
+
+    }
+
+    public void checkUpdate(String url){
+             final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -113,7 +134,7 @@ public class MainActivity extends ActionBarActivity {
                             }
                         });
                         try {
-                            Thread.sleep(1010);
+                            Thread.sleep(1210);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -147,15 +168,6 @@ public class MainActivity extends ActionBarActivity {
             }
         }, 3500);
         requestQueue.add(request);
-
-        // Button default's behavior
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestQueue.add(request);
-            }
-        });
-
 
     }
 
